@@ -1,0 +1,3 @@
+[submodule "convex_adversarial"]
+	path = convex_adversarial
+	url = https://github.com/locuslab/convex_adversarial.git
