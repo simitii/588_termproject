@@ -14,6 +14,7 @@ import argparse
 
 import src.problems as pblm
 from src.trainer import *
+from src.attacks import pgd,fgs
 
 from src.adaptive_robust_training import train_instance_adaptive_robust
 from src.adaptive_epsilon import adaptive_epsilon
@@ -67,4 +68,6 @@ if __name__ == "__main__":
             args.verbose, 
             args.alpha_grad, args.scatter_grad) # l1_proj
         evaluate_robust(test_loader, model, args.epsilon, t, test_log, args.verbose)
+        pgd(test_loader, model, args.epsilon, verbose=True, robust=True)
+        fgs(test_loader, model, args.epsilon, verbose=True, robust=True)
         torch.save(model.state_dict(), args.prefix + "_model.pth")
