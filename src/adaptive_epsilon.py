@@ -56,9 +56,10 @@ def adaptive_epsilon(loader, target_epsilon, batch_size):
 
         dataset_with_dist.append(np.array([X,y, smallest_dist]))
 
-    # scale the distance to [0, target_epsilon] interval
+    # scale the distance to [target_epsilon/10, target_epsilon] interval
     dataset_with_eps = np.array(dataset_with_dist)
     dataset_with_eps[:,2] = target_epsilon * dataset_with_eps[:,2] / np.average(dataset_with_eps[:,2])
+    dataset_with_eps[:,2] = np.clip(dataset_with_eps[:,2], target_epsilon/10, target_epsilon)
 
     # order by eps (ascending)
     new_order = np.argsort(dataset_with_eps[:,2])[::-1]
