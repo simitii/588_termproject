@@ -50,7 +50,7 @@ def adaptive_epsilon(loader, target_epsilon, batch_size):
         smallest_dist = np.inf
         for _y in class_dict:
             if _y != y:
-                _, dist = flann_dict[_y].nn_index(X.reshape(-1), 1)
+                _, dist = np.sqrt(flann_dict[_y].nn_index(X.reshape(-1), 1))
                 if dist[0] < smallest_dist:
                     smallest_dist = dist[0]
 
