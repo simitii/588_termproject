@@ -12,8 +12,8 @@ import torchvision.datasets as datasets
 import numpy as np
 import argparse
 
-import convex_adversarial.examples.problems as pblm
-from convex_adversarial.examples.trainer import *
+import src.problems as pblm
+from src.trainer import *
 
 from src.adaptive_robust_training import train_instance_adaptive_robust
 from src.adaptive_epsilon import adaptive_epsilon

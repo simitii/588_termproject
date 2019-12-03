@@ -3,7 +3,7 @@
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
-from convex_adversarial.convex_adversarial import robust_loss, robust_loss_parallel
+from convex_adversarial import robust_loss, robust_loss_parallel
 import torch.optim as optim
 
 import numpy as np
