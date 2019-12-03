@@ -1,6 +1,6 @@
 import numpy as np
 from pyflann import FLANN
-from torch.utils.data import Dataset
+from torch.utils.data import Dataset, DataLoader
 
 import torch
 
@@ -69,4 +69,4 @@ def adaptive_epsilon(loader, target_epsilon, batch_size):
     Y = dataset_with_eps[:,1]
     eps = dataset_with_eps[:,2]
 
-    return AdaptiveEpsilonDataset(X, Y, eps, batch_size)
+    return DataLoader(AdaptiveEpsilonDataset(X, Y, eps, batch_size), batch_size=1, shuffle=True, pin_memory=True)

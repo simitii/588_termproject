@@ -88,7 +88,7 @@ def train_instance_adaptive_robust(instance_adaptive_loader, model, opt, epoch, 
                   'Robust error {rerrors.val:.3f} ({rerrors.avg:.3f})\t'
                   'Loss {loss.val:.4f} ({loss.avg:.4f})\t'
                   'Error {errors.val:.3f} ({errors.avg:.3f})'.format(
-                   epoch, i, len(loader), batch_time=batch_time,
+                   epoch, i, len(instance_adaptive_loader), batch_time=batch_time,
                    data_time=data_time, epsilon=epsilons, loss=losses, errors=errors, 
                    rloss = robust_losses, rerrors = robust_errors), end=endline)
         log.flush()
