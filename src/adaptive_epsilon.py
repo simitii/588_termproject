@@ -2,6 +2,8 @@ import numpy as np
 from pyflann import FLANN
 from torch.utils.data import Dataset
 
+import torch
+
 class AdaptiveEpsilonDataset(Dataset):
     def __init__(self, X, Y, eps, batch_size):
         self.X = X
@@ -10,14 +12,13 @@ class AdaptiveEpsilonDataset(Dataset):
         self.batch_size = batch_size
     
     def __len__(self):
-        return len(self.Y)
+        return int(len(self.Y)/self.batch_size)
     
     def __getitem__(self, i): 
         X = self.X[i*self.batch_size:(i+1)*self.batch_size]
         Y = self.Y[i*self.batch_size:(i+1)*self.batch_size]
         eps = self.eps[i*self.batch_size:(i+1)*self.batch_size]
-        print(i, self.batch_size, len(Y), len(self.Y))
-        return X[0], Y[0], eps[0]
+        return X, torch.IntTensor(Y.astype(np.int32)), np.average(eps.astype(np.float32))
 
 def adaptive_epsilon(loader, target_epsilon, batch_size):
     # split dataset into classes
@@ -59,8 +60,12 @@ def adaptive_epsilon(loader, target_epsilon, batch_size):
     dataset_with_eps = np.array(dataset_with_dist)
     dataset_with_eps[:,2] = target_epsilon * dataset_with_eps[:,2] / np.max(dataset_with_eps[:,2])
 
+    # order by eps (ascending)
+    new_order = np.argsort(dataset_with_eps[:,2])[::-1]
+    dataset_with_eps = dataset_with_eps[new_order]
+
     # create and return dataset loader
-    X = dataset_with_eps[:,0]
+    X = np.concatenate(dataset_with_eps[:,0], axis=0)
     Y = dataset_with_eps[:,1]
     eps = dataset_with_eps[:,2]
 

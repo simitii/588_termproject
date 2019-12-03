@@ -40,8 +40,8 @@ def train_instance_adaptive_robust(instance_adaptive_loader, model, opt, epoch, 
     model.train()
 
     end = time.time()
-    for i, (X,y, epsilon) in enumerate(instance_adaptive_loader):
-        X,y = X.cuda(), y.cuda().long()
+    for i, ([X],[y], [epsilon]) in enumerate(instance_adaptive_loader):
+        X,y, epsilon = X.cuda(), y.cuda().long(), epsilon.item()
         if y.dim() == 2: 
             y = y.squeeze(1)
         data_time.update(time.time() - end)
