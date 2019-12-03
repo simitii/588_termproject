@@ -68,6 +68,9 @@ if __name__ == "__main__":
             args.verbose, 
             args.alpha_grad, args.scatter_grad) # l1_proj
         evaluate_robust(test_loader, model, args.epsilon, t, test_log, args.verbose)
-        pgd(test_loader, model, args.epsilon, verbose=True, robust=True)
-        fgs(test_loader, model, args.epsilon, verbose=True, robust=True)
         torch.save(model.state_dict(), args.prefix + "_model.pth")
+
+    print("PGD ATTACK:")
+    pgd(test_loader, model, args.epsilon, verbose=False, robust=False)
+    print("FGS ATTACK:")
+    fgs(test_loader, model, args.epsilon, verbose=False, robust=False)
